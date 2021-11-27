@@ -1,5 +1,6 @@
 public class Simulation {
     private final Vehicle vehicle;
+    public static final int digitPadding = 16;
 
     public Simulation(Vehicle v) {
         this.vehicle = v;
@@ -27,15 +28,27 @@ public class Simulation {
     }
 
     public String getHeader() {
-        String s = "";
-        s = s + "\nTime\t";
-        s = s + "Velocity\t\t"; s = s + "Fuel\t\t";
-        s = s + "Altitude\t\t"; s = s + "Burn\n";
-        s = s + "----\t";
-        s = s + "-----\t\t";
-        s = s + "----\t\t";
-        s = s + "------\t\t"; s = s + "----\n";
-        return s;
+//        String s = "";
+//        s = s + "\nTime\t";
+//        s = s + "Velocity\t\t"; s = s + "Fuel\t\t";
+//        s = s + "Altitude\t\t"; s = s + "Burn\n";
+//        s = s + "----\t";
+//        s = s + "-----\t\t";
+//        s = s + "----\t\t";
+//        s = s + "------\t\t"; s = s + "----\n";
+//        return s;
+        StringBuilder s = new StringBuilder("\n");
+        s.append(Simulation.betterLookingFormat("Time (s)"));
+        s.append(Simulation.betterLookingFormat("Velocity (m/s)"));
+        s.append(Simulation.betterLookingFormat("Fuel (kg)"));
+        s.append(Simulation.betterLookingFormat("Altitude (m)"));
+        s.append("Burn\n");
+        s.append(Simulation.betterLookingFormat("~~~~"));
+        s.append(Simulation.betterLookingFormat("~~~~~"));
+        s.append(Simulation.betterLookingFormat("~~~~"));
+        s.append(Simulation.betterLookingFormat("~~~~~~"));
+        s.append("~~~~\n");
+        return s.toString();
     }
 
 
@@ -55,8 +68,9 @@ public class Simulation {
         printString(getHeader());
         while (vehicle.stillFlying()) {
             status = vehicle.getStatus(burnInterval);
-            System.out.print(status.toString()+"\t\t");
+            System.out.print(status.toString());
             vehicle.adjustForBurn(burnSource.getNextBurn(status));
+            status = vehicle.getStatus(burnInterval); //little janky
             if (vehicle.outOfFuel()) {
                 break;
             }
@@ -74,8 +88,19 @@ public class Simulation {
 
     public static void main(String[] args) {
         // create a new Simulation object with a random starting altitude
+        Simulation runGame = new Simulation(new Vehicle(randomaltitude()));
         // create a new BurnInputStream
+        BurnInputStream userInput = new BurnInputStream();
         // pass the new BurnInputStream to the runSimulation method
+        runGame.runSimulation(userInput);
+    }
+
+    public static String betterLookingFormat(String display){
+        return String.format("%1$-" + Simulation.digitPadding+ "s", display);
+    }
+
+    public static String betterLookingFormat(int display){
+        return betterLookingFormat(String.valueOf(display));
     }
 
 }
