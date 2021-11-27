@@ -20,7 +20,7 @@ public class OnBoardComputer implements BurnStream {
         burn = Math.min(200, burn);
         burn = Math.max(0, burn);
 
-        System.out.println(burn); /*hack!*/
+        System.out.println(burn);
         return burn;
     }
 }
