@@ -12,7 +12,7 @@ public class Simulation {
         int max = 20000;
         int min = 10000;
         int r = (int)(Math.random() * (max - min)) + min;
-        return (r % 15000 + 4000);
+        return (r % 15000 + 4501); //changes +4000 to 4501 for minimum viable initial altitude
     }
 
 
