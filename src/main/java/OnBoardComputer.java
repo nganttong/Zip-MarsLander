@@ -29,8 +29,17 @@ public class OnBoardComputer implements BurnStream {
 //                burn = Math.min(100, Math.max(100, 200 + velo));
 //            }
 //        }
+        double slideyScale;
+        if (status.getAltitude() > 6000){
+            slideyScale = 0.05;
+        } else if (status.getAltitude() < 500) {
+            slideyScale = 0.5;
+        } else {
+            slideyScale = 0.1;
+        }
 
-        int targetVelo = (int) Math.ceil(status.getAltitude() * 0.1);
+
+        int targetVelo = (int) Math.ceil(status.getAltitude() * slideyScale);
         burn = (status.getVelocity() - targetVelo) + 100;
         burn = Math.min(200, burn);
         burn = Math.max(0, burn);
